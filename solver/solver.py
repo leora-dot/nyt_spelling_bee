@@ -1,75 +1,51 @@
 #Import Libraries
-import itertools
+from marisa_trie import Trie
 from queue import Queue
 
-class EnglishDict():
+class Solver():
 
-    def __init__(self, input_file, min_letters = 0):
-        self.min_letters = min_letters
-        self.words = {}
+    def __init__(self, input_file, min_letters):
 
-        print("Generating Dictionary...")
+        self.candidates = Queue()
+        self.solutions = []
+
+        #Generate word list From file
+        word_list = []
 
         with open(input_file, "r") as file:
             for line in file:
                 stripped_line = line.strip().upper()
 
                 if len(stripped_line) >= min_letters:
-                    self.words[stripped_line] = True
+                    word_list.append(stripped_line)
 
-        print("Dictionary Generated.")
+        #Generate trie from word list
+        self.trie = Trie(word_list)
 
-    def is_word(self, input_word):
-        is_word = self.words.get(input_word, False)
-        return is_word
+    def generate_solutions(self, letter_list, center_letter):
+        center_letter = center_letter.upper()
+        letter_list = [letter.upper() for letter in letter_list]
 
-class Solver():
+        self.generate_candidates(letter_list)
 
-    def __init__(self, letter_center, letters_6):
+        while not self.candidates.empty():
+            candidate_current = self.candidates.get()
 
-        self.letter_center = letter_center.upper()
-        self.letter_list = [letter.upper() for letter in letters_6] + [self.letter_center]
+            if self.trie.keys(candidate_current): #if word or prefix
+                if candidate_current in self.trie: #if word
+                    if center_letter in candidate_current:
+                        self.solutions.append(candidate_current)
 
-        self.letter_list.sort()
+                self.generate_candidates(letter_list, candidate_current)
 
-        self.is_profanity = False
-        self.max_letters = 7
+            self.candidates.task_done()
 
-        self.english_dictionary = EnglishDict("wordswithfriends_dictionary.txt", 4)
+    def return_solutions(self):
+        self.solutions.sort()
+        print(self.solutions)
 
-        self.words_unchecked = Queue()
-        self.words_solution = []
+    def generate_candidates(self, letter_list, root_string = ""):
 
-    def generate_combinations(self):
-
-        self.combinations_list = []
-
-        for i in range(4, self.max_letters + 1):
-            self.combinations_list.append(itertools.product(self.letter_list, repeat = i))
-
-    def generate_words_unchecked(self):
-
-        for iterator in self.combinations_list:
-            for combination in iterator:
-                if self.letter_center in combination:
-                    word = "".join(combination)
-                    self.words_unchecked.put(word)
-
-    def check_words(self):
-
-        print("Checking Words...")
-
-        while not self.words_unchecked.empty():
-            word = self.words_unchecked.get()
-            if self.english_dictionary.is_word(word):
-                self.words_solution.append(word)
-            self.words_unchecked.task_done()
-
-        print(self.words_solution)
-
-    def print_solution(self):
-
-        self.words_solution.sort()
-        for word in self.words_solution:
-            print(word)
+        for letter in letter_list:
+            self.candidates.put(root_string + letter)
 
