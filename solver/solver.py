@@ -2,22 +2,15 @@
 from marisa_trie import Trie
 from queue import Queue
 
+#import files
+from helper_functions import file_to_word_list
+
 class Solver():
 
-    def __init__(self, input_file, min_letters):
+    def __init__(self, dictionary_input_file, min_letters):
 
         self.candidates = Queue()
-        self.solutions = []
-
-        #Generate word list From file
-        word_list = []
-
-        with open(input_file, "r") as file:
-            for line in file:
-                stripped_line = line.strip().upper()
-
-                if len(stripped_line) >= min_letters:
-                    word_list.append(stripped_line)
+        word_list = file_to_word_list(dictionary_input_file, min_letters)
 
         #Generate trie from word list
         self.trie = Trie(word_list)
