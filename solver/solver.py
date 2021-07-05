@@ -22,14 +22,14 @@ class Solver():
         self.generate_candidates(letter_list)
 
         while not self.candidates.empty():
-            candidate_current = self.candidates.get()
+            candidate = self.candidates.get()
 
-            if self.trie.keys(candidate_current): #if word or prefix
-                if candidate_current in self.trie: #if word
-                    if center_letter in candidate_current:
-                        self.solutions.append(candidate_current)
+            if self.trie.keys(candidate): #if word or prefix
+                if candidate in self.trie: #if word
+                    if center_letter in candidate:
+                        self.solutions.append(candidate)
 
-                self.generate_candidates(letter_list, candidate_current)
+                self.generate_candidates(letter_list, candidate)
 
             self.candidates.task_done()
 
