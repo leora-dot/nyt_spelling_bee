@@ -1,10 +1,6 @@
 # project_plan
 
 #Create solver
-  #optimize with trie structure
-  #profanity filter
-  #pangram filter
-  #validate dictionary selection
 
 #Create front end
 
@@ -15,5 +11,6 @@
   #features per letter
   #features per num vowels
   #features per letter combos (ie, "ed")
+  #feature for center vowel vs constanant
 
   #is ar2 in sklearn?
