@@ -33,7 +33,7 @@ class Solver():
         self.is_profanity = False
         self.max_letters = 7
 
-        self.english_dictionary = EnglishDict("scrabble_dictionary.txt", 4)
+        self.english_dictionary = EnglishDict("wordswithfriends_dictionary.txt", 4)
 
         self.words_unchecked = Queue()
         self.words_solution = []
