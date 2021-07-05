@@ -19,6 +19,7 @@ class Solver():
         center_letter = center_letter.upper()
         letter_list = [letter.upper() for letter in letter_list]
 
+        self.solutions = []
         self.generate_candidates(letter_list)
 
         while not self.candidates.empty():
@@ -33,9 +34,8 @@ class Solver():
 
             self.candidates.task_done()
 
-    def return_solutions(self):
         self.solutions.sort()
-        print(self.solutions)
+        return self.solutions
 
     def generate_candidates(self, letter_list, root_string = ""):
 
