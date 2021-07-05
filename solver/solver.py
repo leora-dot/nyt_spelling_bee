@@ -2,7 +2,7 @@
 from marisa_trie import Trie
 from queue import Queue
 
-#import files
+#import modules
 from helper_functions import file_to_word_list
 
 class Solver():

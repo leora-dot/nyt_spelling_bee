@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Outside Data Sources
+#External Data Sources
 scrabble_dictionary.txt
 profanity_dictionary.txt
 wordswithfriends_dictionary.txt

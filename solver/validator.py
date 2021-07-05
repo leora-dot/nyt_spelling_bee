@@ -1,4 +1,4 @@
-#import files
+#import modules
 from solver import Solver
 from helper_functions import file_to_word_list
 
