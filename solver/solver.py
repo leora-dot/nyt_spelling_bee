@@ -66,3 +66,10 @@ class Solver():
             self.words_unchecked.task_done()
 
         print(self.words_solution)
+
+    def print_solution(self):
+
+        self.words_solution.sort()
+        for word in self.words_solution:
+            print(word)
+
