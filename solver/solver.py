@@ -12,7 +12,7 @@ class EnglishDict():
 
         with open(input_file, "r") as file:
             for line in file:
-                stripped_line = line.strip()
+                stripped_line = line.strip().upper()
 
                 if len(stripped_line) >= min_letters:
                     self.words[stripped_line] = True
@@ -25,9 +25,11 @@ class EnglishDict():
 
 class Solver():
 
-    def __init__(self, letter_center, letter1, letter2, letter3, letter4, letter5, letter6):
-        self.letter_center = letter_center
-        self.letter_list = [letter_center, letter1, letter2, letter3, letter4, letter5, letter6]
+    def __init__(self, letter_center, letters_6):
+
+        self.letter_center = letter_center.upper()
+        self.letter_list = [letter.upper() for letter in letters_6] + [self.letter_center]
+
         self.letter_list.sort()
 
         self.is_profanity = False
