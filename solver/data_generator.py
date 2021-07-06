@@ -1,6 +1,7 @@
 #import libraries
 import itertools
 import pandas as pd
+import numpy as np
 from queue import Queue
 from csv import DictWriter
 
@@ -19,24 +20,25 @@ class DataGenerator():
         self.max_combinations = 3
         self.combinations_counter = 0
 
-        self.letter_combinations = itertools.combinations("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 7)
-        self.is_combination_current = False
-
+        self.combination_index = None
         self.combination = None
         self.combination_string = None
 
-    def get_completed_dict(self):
-        completed_combinations = pd.read_csv(self.output_file, usecols=["SEVEN_LETTERS"])
-        completed_combinations = completed_combinations["SEVEN_LETTERS"].unique()
-        self.logged_dict = {combination:True for combination in completed_combinations}
+    def get_progress(self):
+        logged_keys = pd.read_csv(self.output_file, usecols=["COMBO_INDEX"])
+        logged_max = logged_keys.max()["COMBO_INDEX"]
+        if np.isnan(logged_max):
+            logged_max = 0
+        self.logged_max = logged_max
 
-    def is_combination_in_log(self):
+    def generate_iterators(self):
 
-        if self.logged_dict.get(self.combination_string, False):
-            return True
-        else:
-            self.is_combination_current = True
-            return False
+        combinations = itertools.combinations("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 7)
+        combination_keys = itertools.count()
+        combinations_and_keys = zip(combination_keys, combinations)
+
+        start_index = self.logged_max
+        self.combinations_outstanding = itertools.islice(combinations_and_keys, start_index, None)
 
     def generate_combination_data(self):
 
@@ -44,6 +46,7 @@ class DataGenerator():
             output_dict = {}
             validator = Validator(self.solver, self.combination, center_letter, self.profanity_input_file)
 
+            output_dict["COMBO_INDEX"] = self.combination_index
             output_dict["SEVEN_LETTERS"] = self.combination_string
             output_dict["CENTER_LETTER"] = center_letter
             output_dict["NUM_SOLUTIONS"] = validator.num_solutions()
@@ -57,7 +60,7 @@ class DataGenerator():
     def log_data(self):
 
         with open(self.output_file, 'a', newline='') as file:
-            dictwriter_object = DictWriter(file, fieldnames= ["SEVEN_LETTERS", "CENTER_LETTER", "NUM_SOLUTIONS", "IS_PROFANE", "IS_PANGRAM"])
+            dictwriter_object = DictWriter(file, fieldnames= ["COMBO_INDEX", "SEVEN_LETTERS", "CENTER_LETTER", "NUM_SOLUTIONS", "IS_PROFANE", "IS_PANGRAM"])
 
             while not self.data_unlogged.empty():
                 data = self.data_unlogged.get()
@@ -67,16 +70,14 @@ class DataGenerator():
 
     def run(self):
 
-        self.get_completed_dict()
+        self.get_progress()
+        self.generate_iterators()
 
-        for combination in self.letter_combinations:
-            self.combination = combination
+        for tup in self.combinations_outstanding:
+            self.combination_index, self.combination = tup[0], tup[1]
             self.combination_string = "".join(letter for letter in self.combination)
 
-            if self.is_combination_current:
-                self.generate_combination_data()
-            elif not self.is_combination_in_log():
-                self.generate_combination_data()
+            self.generate_combination_data()
 
-            if self.combinations_counter >= self.max_combinations:
+            if self.combinations_counter >= self.max_unlogged_combinations:
                 self.log_data()
