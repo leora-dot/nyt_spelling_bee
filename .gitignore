@@ -132,3 +132,6 @@ dmypy.json
 scrabble_dictionary.txt
 profanity_dictionary.txt
 wordswithfriends_dictionary.txt
+
+#Internal Data Sources
+solution_data.csv
