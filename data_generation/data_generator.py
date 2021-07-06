@@ -150,4 +150,3 @@ class DataGenerator():
             time.sleep(self.block_time)
 
         print("Data generation complete.")
-

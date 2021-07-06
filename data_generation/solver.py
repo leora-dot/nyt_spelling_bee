@@ -41,4 +41,3 @@ class Solver():
 
         for letter in letter_list:
             self.candidates.put(root_string + letter)
-
