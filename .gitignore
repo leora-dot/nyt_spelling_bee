@@ -130,8 +130,13 @@ dmypy.json
 
 #External Data Sources
 scrabble_dictionary.txt
-profanity_dictionary.txt
 wordswithfriends_dictionary.txt
+scrabble_acceptable_place_names.txt
+scrabble_monetary_units.txt
+scrabble_proper_names.txt
+scrabble_words_that_surprised_you.txt
+scrabble_words_without_vowels.txt
 
 #Internal Data Sources
 solution_data.csv
+profanity_dictionary.txt
