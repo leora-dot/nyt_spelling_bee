@@ -1,5 +1,5 @@
 #import libraries
-sys.path.append("..")
+import sys
 
 #import modules
 sys.path.append("..")
