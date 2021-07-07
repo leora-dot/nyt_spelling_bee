@@ -1,8 +1,10 @@
 #Import Libraries
 from marisa_trie import Trie
 from queue import Queue
+import sys
 
 #import modules
+sys.path.append("..")
 from helper_functions import file_to_word_list
 from helper_functions import clean_word_list
 

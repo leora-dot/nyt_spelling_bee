@@ -7,10 +7,13 @@ from csv import DictWriter
 import time
 from datetime import datetime
 import threading
+import sys
 
 #import modules
+sys.path.append("..")
 from validator import Validator
 from solver import Solver
+from helper_functions import alphabet_string
 
 class DataGenerator():
 
@@ -48,7 +51,7 @@ class DataGenerator():
 
     def generate_iterators(self):
 
-        combinations = itertools.combinations("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 7)
+        combinations = itertools.combinations(alphabet_string, 7)
         combination_keys = itertools.count()
         combinations_and_keys = zip(combination_keys, combinations)
 

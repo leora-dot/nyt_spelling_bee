@@ -1,6 +1,11 @@
 #import libraries
 import numpy as np
 
+#Lists
+alphabet_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+#Functions
+
 def file_to_word_list(input_file, min_letters = 0):
 
     word_list = []
@@ -41,3 +46,7 @@ def clean_word_list(word_list):
 
     return base_word_list
 
+#test = ["Leora", "anna", "reading", "story"]
+#print(clean_word_list(test))
+#test =["Leora", "Leora", "Yale", "Orange"]
+#print(remove_duplicates(test))

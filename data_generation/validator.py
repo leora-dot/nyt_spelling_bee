@@ -1,4 +1,8 @@
+#import libraries
+sys.path.append("..")
+
 #import modules
+sys.path.append("..")
 from solver import Solver
 from helper_functions import file_to_word_list
 
