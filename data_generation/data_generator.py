@@ -37,8 +37,9 @@ class DataGenerator():
 
         print("Checking existing data log...")
 
-        logged_keys = pd.read_csv(self.output_file, usecols=["COMBINATION_INDEX"])
-        logged_max = logged_keys.max()["COMBINATION_INDEX"]
+        logged_keys = pd.read_csv(self.output_file, usecols=["COMBINATION_INDEX"], squeeze = True)
+        logged_max = logged_keys.max()
+
         if np.isnan(logged_max):
             logged_max = 0
         self.last_logged_index = logged_max
