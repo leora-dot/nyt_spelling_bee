@@ -37,8 +37,8 @@ class DataGenerator():
 
         print("Checking existing data log...")
 
-        logged_keys = pd.read_csv(self.output_file, usecols=["COMBO_INDEX"])
-        logged_max = logged_keys.max()["COMBO_INDEX"]
+        logged_keys = pd.read_csv(self.output_file, usecols=["COMBINATION_INDEX"])
+        logged_max = logged_keys.max()["COMBINATION_INDEX"]
         if np.isnan(logged_max):
             logged_max = 0
         self.last_logged_index = logged_max
@@ -60,7 +60,7 @@ class DataGenerator():
             output_dict = {}
             validator = Validator(self.solver, self.combination, center_letter, self.profanity_input_file)
 
-            output_dict["COMBO_INDEX"] = self.combination_index
+            output_dict["COMBINATION_INDEX"] = self.combination_index
             output_dict["SEVEN_LETTERS"] = self.combination_string
             output_dict["CENTER_LETTER"] = center_letter
             output_dict["NUM_SOLUTIONS"] = validator.num_solutions()
@@ -72,7 +72,7 @@ class DataGenerator():
     def generate_file_objects(self):
 
         self.file = open(self.output_file, 'a', newline='')
-        self.dictwriter_object = DictWriter(self.file, fieldnames= ["COMBO_INDEX", "SEVEN_LETTERS", "CENTER_LETTER", "NUM_SOLUTIONS", "IS_PROFANE", "IS_PANGRAM"])
+        self.dictwriter_object = DictWriter(self.file, fieldnames= ["COMBINATION_INDEX", "SEVEN_LETTERS", "CENTER_LETTER", "NUM_SOLUTIONS", "IS_PROFANE", "IS_PANGRAM"])
 
     def log_data_loop(self):
 
@@ -86,7 +86,7 @@ class DataGenerator():
             try:
                 data = self.data_unlogged.get(block = False)
                 self.dictwriter_object.writerow(data)
-                self.last_logged_index = data.get("COMBO_INDEX")
+                self.last_logged_index = data.get("COMBINATION_INDEX")
                 self.data_unlogged.task_done()
                 write_counter +=1
 
