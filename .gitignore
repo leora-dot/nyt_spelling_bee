@@ -140,3 +140,4 @@ scrabble_words_without_vowels.txt
 #Internal Data Sources
 solution_data.csv
 profanity_dictionary.txt
+acceptable_words.txt

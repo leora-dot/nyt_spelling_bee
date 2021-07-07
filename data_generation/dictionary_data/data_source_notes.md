@@ -25,3 +25,6 @@ Source: https://scrabble.merriam.com/words-without-vowels (Scraped 7/6/2021)
 Scrabble Monetary Units: Currency names valid as Scrabble words
 Source: https://scrabble.merriam.com/monetary-units (Scraped 7/6/2021)
   Note: "Show More" and "Show All" buttons on the website suggest these lists may contain additional words. However, these buttons give error messages when clicked.
+
+Acceptable Words: Contains words which I would like to include even though they are present in lists of words that will be excluded. For example, I would generally like to exclude proper names, but I would like to keep some exceptions like "Will", "Ward", "Amber", and "Griffin".
+Source: Generated Manually
