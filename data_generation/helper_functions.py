@@ -10,7 +10,7 @@ def file_to_word_list(input_file, min_letters = 0):
 
     word_list = []
 
-    with open(input_file, "r") as file:
+    with open(input_file, "r", encoding = "ISO-8859-1") as file:
         for line in file:
             stripped_line = line.strip().upper()
 
