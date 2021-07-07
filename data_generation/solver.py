@@ -4,6 +4,7 @@ from queue import Queue
 
 #import modules
 from helper_functions import file_to_word_list
+from helper_functions import clean_word_list
 
 class Solver():
 
@@ -11,6 +12,7 @@ class Solver():
 
         self.candidates = Queue()
         word_list = file_to_word_list(dictionary_input_file, min_letters)
+        word_list = clean_word_list(word_list)
 
         #Generate trie from word list
         self.trie = Trie(word_list)

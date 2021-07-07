@@ -22,3 +22,22 @@ def remove_duplicates(input_list):
 
 def filter_list(main_list, remove_list):
     return list(np.setdiff1d(main_list, remove_list))
+
+def clean_word_list(word_list):
+    base_word_list = [word.upper() for word in word_list]
+
+    #Exclusion Lists
+    exclusion_list = []
+    for exclusion_file in ["profanity_dictionary.txt", "scrabble_acceptable_place_names.txt", "scrabble_monetary_units.txt", "scrabble_proper_names.txt", "scrabble_words_that_surprised_you.txt", "scrabble_words_without_vowels.txt"]:
+        exclusion_file = "dictionary_data/" + exclusion_file
+        exclusion_file_word_list = file_to_word_list(exclusion_file)
+        exclusion_list.extend(exclusion_file_word_list)
+    exclusion_list = remove_duplicates(exclusion_list)
+
+    acceptable_list = file_to_word_list("dictionary_data/acceptable_words.txt")
+    exclusion_list  = filter_list(exclusion_list, acceptable_list)
+
+    base_word_list = filter_list(base_word_list, exclusion_list)
+
+    return base_word_list
+
