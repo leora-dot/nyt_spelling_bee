@@ -157,5 +157,5 @@ class DataGenerator():
 
 if __name__ == "__main__":
     solver = Solver("dictionary_data/wordswithfriends_dictionary.txt", 4)
-    generator = DataGenerator("solution_data.csv", "dictionary_data/profanity_dictionary.txt", solver)
+    generator = DataGenerator("data_generation/solution_data.csv", "dictionary_data/profanity_dictionary.txt", solver)
     generator.run()
