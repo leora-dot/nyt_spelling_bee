@@ -39,3 +39,7 @@ class Validator():
                 return True
 
         return False
+
+if __name__ == "__main__":
+    test_solver = Solver("wordswithfriends_dictionary.txt", 4)
+    test_validator = Validator(test_solver, ["N", "A", "D", "E", "I", "P", "X"], "N", "profanity_dictionary.txt")

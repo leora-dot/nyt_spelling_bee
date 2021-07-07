@@ -42,3 +42,19 @@ class Scraper():
         self.get_soup()
         self.get_words()
         self.save_words_to_file()
+
+if __name__ == "__main__":
+    place_names_scraper = Scraper("https://scrabble.merriam.com/acceptable-place-names", "scrabble_acceptable_place_names.txt")
+    place_names_scraper.run()
+
+    proper_names_scraper = Scraper("https://scrabble.merriam.com/acceptable-proper-names", "scrabble_proper_names.txt")
+    proper_names_scraper.run()
+
+    words_without_vowels_scraper = Scraper("https://scrabble.merriam.com/words-without-vowels", "scrabble_words_without_vowels.txt")
+    words_without_vowels_scraper.run()
+
+    monetary_units_scraper = Scraper("https://scrabble.merriam.com/monetary-units", "scrabble_monetary_units.txt")
+    monetary_units_scraper.run()
+
+    words_that_surprised_scraper = Scraper("https://scrabble.merriam.com/words-that-surprised-you", "scrabble_words_that_surprised_you.txt")
+    words_that_surprised_scraper.run()
