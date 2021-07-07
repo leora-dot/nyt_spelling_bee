@@ -45,8 +45,3 @@ def clean_word_list(word_list):
     base_word_list = filter_list(base_word_list, exclusion_list)
 
     return base_word_list
-
-#test = ["Leora", "anna", "reading", "story"]
-#print(clean_word_list(test))
-#test =["Leora", "Leora", "Yale", "Orange"]
-#print(remove_duplicates(test))
