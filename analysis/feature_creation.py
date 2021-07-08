@@ -30,11 +30,11 @@ df_valid.drop(columns = bool_cols, inplace = True)
 df_valid.reset_index(inplace = True, drop = True)
 
 df_features = df_valid.copy()
-df_features = df_features.head(10)
 
 #
 #Create Letter Features
 #
 
 for letter in alphabet_string:
-    df_features["IS_" + letter] = df_features["SEVEN_LETTERS"].apply(lambda x: letter in x).astype(int)
+    df_features["IS_LETTER_" + letter] = df_features["SEVEN_LETTERS"].apply(lambda x: letter in x).astype(int)
+    df_features["IS_LETTER_CENTER_" + letter] = df_features["CENTER_LETTER"].apply(lambda x: letter in x).astype(int)
