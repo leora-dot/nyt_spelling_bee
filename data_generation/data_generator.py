@@ -37,16 +37,16 @@ class DataGenerator():
 
         print("Checking existing data log...")
 
-        logged_keys = pd.read_csv(self.output_file, usecols=[self.output_column_index], squeeze = True)
+        logged_keys = pd.read_csv(self.output_file, usecols=[self.output_column_index_name], squeeze = True)
         logged_max = logged_keys.max()
 
         if np.isnan(logged_max):
             logged_max = 0
-        self.last_logged_index = logged_max
+        self.index_last_logged = logged_max
 
     def generate_tasks(self):
 
-        for task_index in range(self.last_logged_index, self.last_index):
+        for task_index in range(self.index_last_logged, self.index_last):
             self.to_generate.put(task_index)
 
     def generate_data_loop(self):
@@ -74,7 +74,7 @@ class DataGenerator():
     def generate_file_objects(self):
 
         self.file = open(self.output_file, 'a', newline='')
-        self.dictwriter_object = DictWriter(self.file, fieldnames= self.output_columns_list)
+        self.dictwriter_object = DictWriter(self.file, fieldnames= self.output_column_names)
 
     def log_data_loop(self):
 
@@ -88,7 +88,7 @@ class DataGenerator():
             try:
                 output_dict = self.to_log.get(block = False)
                 self.dictwriter_object.writerow(output_dict)
-                self.last_logged_index = output_dict.get(self.output_column_index)
+                self.index_last_logged = output_dict.get(self.output_column_index_name)
                 self.to_log.task_done()
                 write_counter +=1
 
@@ -111,7 +111,7 @@ class DataGenerator():
 
         now = datetime.now()
         now_string = now.strftime("%m/%d/%Y %H:%M:%S")
-        print("{:,} / {:,} combinations logged ({:.2%} complete) at {}".format(self.last_logged_index, self.last_index, self.last_logged_index/self.last_index, now_string))
+        print("{:,} / {:,} combinations logged ({:.2%} complete) at {}".format(self.index_last_logged, self.index_last, self.index_last_logged/self.index_last, now_string))
 
     def print_progress_loop(self):
 
@@ -147,10 +147,10 @@ class GameDataGenerator(DataGenerator):
         super().__init__(output_file)
 
         self.solver = solver
-        self.last_index = 657800 #26 choose 7
+        self.index_last = 657800 #26 choose 7
         self.profanity_input_file = profanity_input_file
-        self.output_columns_list = ["COMBINATION_INDEX", "SEVEN_LETTERS", "CENTER_LETTER", "NUM_SOLUTIONS", "IS_PROFANE", "IS_PANGRAM"]
-        self.output_column_index = "COMBINATION_INDEX"
+        self.output_column_names = ["COMBINATION_INDEX", "SEVEN_LETTERS", "CENTER_LETTER", "NUM_SOLUTIONS", "IS_PROFANE", "IS_PANGRAM"]
+        self.output_column_index_name = "COMBINATION_INDEX"
 
         self.task_name = "combinations"
 
@@ -161,14 +161,14 @@ class GameDataGenerator(DataGenerator):
 
         for center_letter in combination:
             validator = Validator(self.solver, combination, center_letter, self.profanity_input_file)
-            validator_tup = (task_index, combination_string, center_letter, validator)
-            self.to_process.put(validator_tup)
+            raw_data_tup = (task_index, combination_string, center_letter, validator)
+            self.to_process.put(raw_data_tup)
 
-    def process_data(self, validator_tup): #VALIDATOR TUP > OUTPUTDICT
+    def process_data(self, raw_data_tup): #VALIDATOR TUP > OUTPUTDICT
 
-        task_index = validator_tup[0]
-        combination_string, center_letter = validator_tup[1], validator_tup[2]
-        validator = validator_tup[3]
+        task_index = raw_data_tup[0]
+        combination_string, center_letter = raw_data_tup[1], raw_data_tup[2]
+        validator = raw_data_tup[3]
         output_dict = {}
 
         output_dict["COMBINATION_INDEX"] = task_index
