@@ -111,7 +111,7 @@ class DataGenerator():
 
         now = datetime.now()
         now_string = now.strftime("%m/%d/%Y %H:%M:%S")
-        print("{:,} / {:,} combinations logged ({:.2%} complete) at {}".format(self.index_last_logged, self.index_last, self.index_last_logged/self.index_last, now_string))
+        print("{:,} / {:,} {} logged ({:.2%} complete) at {}".format(self.index_last_logged, self.index_last, self.task_name, self.index_last_logged/self.index_last, now_string))
 
     def print_progress_loop(self):
 
