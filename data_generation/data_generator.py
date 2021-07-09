@@ -8,12 +8,15 @@ import time
 from datetime import datetime
 import threading
 import sys
+import requests
+from bs4 import BeautifulSoup
+import random
 
 #import modules
 sys.path.append("..")
 from validator import Validator
 from solver import Solver
-from helper_functions import alphabet_string
+import helper_functions
 
 class DataGenerator():
 
@@ -155,7 +158,7 @@ class GameDataGenerator(DataGenerator):
         self.task_name = "combinations"
 
     def generate_data(self, task_index): #INDEX > VALIDATOR TUPS
-        combinations = itertools.combinations(alphabet_string, 7)
+        combinations = itertools.combinations(helper_functions.alphabet_string, 7)
         combination = next(itertools.islice(combinations, task_index, task_index + 1))
         combination_string = "".join(letter for letter in combination)
 
@@ -180,7 +183,80 @@ class GameDataGenerator(DataGenerator):
 
         self.to_log.put(output_dict)
 
+class ScrapperArchive(DataGenerator):
+
+    def __init__(self, output_file):
+        super().__init__(output_file)
+        self.base_url_valid = "https://www.shunn.net/bee/s/"
+        self.base_url_all = "https://www.shunn.net/bee/d/"
+        self.output_column_names = ["ARCHIVE_INDEX", "WORD", "IS_VALID"]
+        self.output_column_index_name = "ARCHIVE_INDEX"
+
+        self.max_sleep_time = 1.5
+        self.task_name = "puzzles"
+        self.index_last = 1157 #1157 is 7/8/2021 index
+
+    def random_sleep(self):
+
+        sleep_time = random.uniform(0.5, self.max_sleep_time)
+        time.sleep(sleep_time)
+
+    def get_soup(self, url):
+
+        webpage_response = requests.get(url)
+        webpage_content = webpage_response.content
+        soup = BeautifulSoup(webpage_content, "html.parser")
+        return soup
+
+    def generate_data(self, task_index): # TASK INDEX > SOUPS TUPS
+
+        url_valid = self.base_url_valid + str(task_index)
+        url_all = self.base_url_all + str(task_index)
+        soup_valid = self.get_soup(url_valid)
+        self.random_sleep()
+        soup_all = self.get_soup(url_all)
+        self.random_sleep()
+
+        raw_data_tup = (task_index, soup_valid, soup_all)
+        self.to_process.put(raw_data_tup)
+
+    def parse_soup_to_words(self, soup):
+
+        word_tags = soup.find_all(attrs={'class':'bee-silent'})
+
+        if word_tags:
+            words = []
+            for word_tag in word_tags:
+                word = word_tag.get_text().strip()
+                words.append(word)
+        else:
+            words = None
+
+        return words
+
+    def process_data(self, raw_data_tup):
+
+        index, soup_valid, soup_all = raw_data_tup[0], raw_data_tup[1], raw_data_tup[2]
+        words_valid, words_all = self.parse_soup_to_words(soup_valid), self.parse_soup_to_words(soup_all)
+
+        if words_valid and words_all:
+            words_invalid = helper_functions.filter_list(words_all, words_valid)
+            word_tups = [(True, words_valid),(False, words_invalid)]
+            for tup in word_tups:
+                is_valid, word_list = tup[0], tup[1]
+                #if not is_valid:
+                    #print(tup)
+                for word in word_list:
+                    output_dict = {}
+                    output_dict["ARCHIVE_INDEX"] = index
+                    output_dict["WORD"] = word
+                    output_dict["IS_VALID"] = is_valid
+                    self.to_log.put(output_dict)
+
 if __name__ == "__main__":
     solver = Solver("dictionary_data/wordswithfriends_dictionary.txt", 4)
     game_generator = GameDataGenerator("solution_data.csv", "dictionary_data/profanity_dictionary.txt", solver)
     game_generator.run()
+
+    archive_generator = ScrapperArchive("dictionary_data/archive_dictionary.csv")
+    archive_generator.run()

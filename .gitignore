@@ -136,6 +136,7 @@ scrabble_monetary_units.txt
 scrabble_proper_names.txt
 scrabble_words_that_surprised_you.txt
 scrabble_words_without_vowels.txt
+archive_dictionary.csv
 
 #Internal Data Sources
 solution_data.csv
