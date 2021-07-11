@@ -28,3 +28,5 @@ Source: https://scrabble.merriam.com/monetary-units (Scraped 7/6/2021)
 
 Acceptable Words: Contains words which I would like to include even though they are present in lists of words that will be excluded. For example, I would generally like to exclude proper names, but I would like to keep some exceptions like "Will", "Ward", "Amber", and "Griffin".
 Source: Generated Manually
+
+Archive Dictionary: Accepted and nonaccepted words created from William Shunn archive of Spelling Bee Games. (Scraped 7/8/2021)
