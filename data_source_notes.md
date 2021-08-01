@@ -30,3 +30,11 @@ Acceptable Words: Contains words which I would like to include even though they 
 Source: Generated Manually
 
 Archive Dictionary: Accepted and nonaccepted words created from William Shunn archive of Spelling Bee Games. (Scraped 7/8/2021)
+
+word_frequency_lemmas_top5k: Top 60,000 lemmas + sub-categories
+Source: https://www.wordfrequency.info/samples.asp (Downloaded 7/11/2021)
+
+word_frequency_lemmas_forms_top5k: Top 60,000 lemmas + word forms (100,000+ forms)
+Source: Source: https://www.wordfrequency.info/samples.asp (Downloaded 7/11/2021, Converted to Excel 97-2003 Workbook)
+
+Project Gutenberg: Full Text of Popular Books: (https://www.gutenberg.org/ebooks/bookshelf/13)
