@@ -1,16 +1,18 @@
 # project_plan
 
-#Create solver
-
 #Create front end
+  #learn basic html
+  #learn basic css
+  #learn basic javascript
 
 #Generate Data
-  #check runtime / consider optimizations
+  #Build word commonality model
+    #Corpus based on word frequency data (complete)
+    #Corpus based on popular books (in progress)
+  #Filter scrabble dictionary based on commonality model
+  #Rerun data generation off smaller dictionaries
 
 #Build Models
-  #features per letter
-  #features per num vowels
-  #features per letter combos (ie, "ed")
-  #feature for center vowel vs constanant
-
-  #is ar2 in sklearn?
+  #EDA
+  #Stepwise feature selection in R
+  #Measure performance by ar2
