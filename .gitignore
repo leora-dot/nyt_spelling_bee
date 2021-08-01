@@ -128,6 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#Configurations
+config.R
+
 #External Data Sources
 scrabble_dictionary.txt
 wordswithfriends_dictionary.txt
@@ -136,9 +139,16 @@ scrabble_monetary_units.txt
 scrabble_proper_names.txt
 scrabble_words_that_surprised_you.txt
 scrabble_words_without_vowels.txt
-archive_dictionary.csv
+archive_dictionary*.csv
+word_frequency*.xlsx
+word_frequency*.xls
+sentiment140_*.csv
+word_commonality/corpus_data/project_gutenberg*
 
 #Internal Data Sources
 solution_data.csv
 profanity_dictionary.txt
 acceptable_words.txt
+
+#R Output
+*.nb.html
