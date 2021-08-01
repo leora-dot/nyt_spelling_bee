@@ -77,6 +77,8 @@ df_features["IS_ING"] = df_features[["IS_LETTER_I", "IS_LETTER_N", "IS_LETTER_G"
 df_features["IS_IAL"] = df_features[["IS_LETTER_I", "IS_LETTER_A", "IS_LETTER_L"]].all(axis = 1).astype(int)
 df_features["IS_DIS"] = df_features[["IS_LETTER_D", "IS_LETTER_I", "IS_LETTER_S"]].all(axis = 1).astype(int)
 df_features["IS_DIF"] = df_features[["IS_LETTER_D", "IS_LETTER_I", "IS_LETTER_F"]].all(axis = 1).astype(int)
+df_features["IS_IST"] = df_features[["IS_LETTER_I", "IS_LETTER_S", "IS_LETTER_T"]].all(axis = 1).astype(int)
+df_features["IS_EST"] = df_features[["IS_LETTER_E", "IS_LETTER_S", "IS_LETTER_T"]].all(axis = 1).astype(int)
 
 #Four Letters
 df_features["IS_ABLE"] = df_features[["IS_LETTER_A", "IS_LETTER_B", "IS_LETTER_L", "IS_LETTER_E"]].all(axis = 1).astype(int)
