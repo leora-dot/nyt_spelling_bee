@@ -54,6 +54,8 @@ for letter in alphabet_string:
 df_features["NUM_VOWELS"] = df_features[is_letter_vowel_columns].sum(axis = 1)
 df_features["IS_LETTER_CENTER_VOWEL"] = (df_features[is_letter_center_vowel_columns].sum(axis = 1) > 0).astype(int)
 
+for val in range(1,6):
+    df_features["NUM_VOWELS_{}".format(str(val))] = (df_features.NUM_VOWELS == val).astype(int)
 
 #
 #Create Prefix & Suffix Features
