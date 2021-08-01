@@ -1,0 +1,24 @@
+---
+title: "Exploratory Analysis"
+output: html_notebook
+---
+
+Import Libraries
+
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(reticulate)
+
+source("..\\config.R") #sources python_path
+use_python(python_path, required = TRUE)
+
+```
+
+Import Data
+```{r}
+source_python('feature_creation.py')
+
+```
+
