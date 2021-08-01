@@ -27,6 +27,17 @@ modeling_data <- df_features %>%
 
 ```
 
+Distribution of Data
+```{r}
+solutions_hist <- ggplot(
+  data = modeling_data, aes(x = NUM_SOLUTIONS)) +
+  geom_histogram(binwidth = 1)
+
+solutions_hist
+```
+
+
+
 Calculate Pearson Correlations
 ```{r}
 cor_matrix <- cor(modeling_data, method = "pearson")
@@ -40,7 +51,7 @@ cor_summary <- cor_matrix %>%
 
 Impact of Number of Vowels
 ```{r}
-ggplot(data = modeling_data,
+vowesl_scatter <- ggplot(data = modeling_data,
        aes(x = factor(NUM_VOWELS), y= NUM_SOLUTIONS)) +
   geom_boxplot()
 
