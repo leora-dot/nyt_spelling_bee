@@ -3,6 +3,7 @@ import numpy as np
 
 #Lists
 alphabet_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+vowel_string = "AEIOU"
 
 #Functions
 
