@@ -20,5 +20,20 @@ Import Data
 ```{r}
 source_python('feature_creation.py')
 
+modeling_data <- df_features %>%
+  select(-SEVEN_LETTERS, -CENTER_LETTER)
+  
+
+```
+
+Calculate Pearson Correlations
+```{r}
+cor_matrix <- cor(modeling_data, method = "pearson")
+
+cor_summary <- cor_matrix %>%
+  as.data.frame() %>%
+  select(NUM_SOLUTIONS) %>%
+  rename(correlation = NUM_SOLUTIONS) %>%
+  mutate(correlation_mag = abs(correlation))
 ```
 
