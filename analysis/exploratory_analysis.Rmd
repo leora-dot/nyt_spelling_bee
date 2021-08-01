@@ -10,6 +10,7 @@ Import Libraries
 library(tidyverse)
 library(readxl)
 library(reticulate)
+library(ggplot2)
 
 source("..\\config.R") #sources python_path
 use_python(python_path, required = TRUE)
@@ -35,5 +36,13 @@ cor_summary <- cor_matrix %>%
   select(NUM_SOLUTIONS) %>%
   rename(correlation = NUM_SOLUTIONS) %>%
   mutate(correlation_mag = abs(correlation))
+```
+
+Impact of Number of Vowels
+```{r}
+ggplot(data = modeling_data,
+       aes(x = factor(NUM_VOWELS), y= NUM_SOLUTIONS)) +
+  geom_boxplot()
+
 ```
 
