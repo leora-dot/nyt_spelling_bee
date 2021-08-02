@@ -11,6 +11,7 @@ library(tidyverse)
 library(readxl)
 library(reticulate)
 library(ggplot2)
+library(ggpubr)
 
 source("..\\config.R") #sources python_path
 use_python(python_path, required = TRUE)
@@ -33,13 +34,17 @@ solutions_hist <- ggplot(
   data = modeling_data, aes(x = NUM_SOLUTIONS)) +
   geom_histogram(binwidth = 1)
 
-solutions_hist
-
 solutions_hist_log <- ggplot(
   data = modeling_data, aes(x = NUM_SOLUTIONS_LOG)) +
   geom_histogram(binwidth = 0.02)
 
-solutions_hist_log
+figure_dist <- ggarrange(solutions_hist, solutions_hist_log,
+                    ncol = 2, nrow = 1) %>%
+  annotate_figure(top = "Solutions Histogram")
+
+figure_dist
+
+#solutions_hist_log
 ```
 
 Calculate Pearson Correlations
