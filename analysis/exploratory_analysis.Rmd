@@ -3,54 +3,59 @@ title: "Exploratory Analysis"
 output: html_notebook
 ---
 
-Import Libraries
-
-
+Imports
 ```{r}
+#Import Libraries
 library(tidyverse)
 library(readxl)
 library(reticulate)
 library(ggplot2)
 library(ggpubr)
 
+#Import Python
 source("..\\config.R") #sources python_path
 use_python(python_path, required = TRUE)
 
+#Import Data
+source_python('feature_creation.py')
 ```
 
-Import Data
+Data Cleaning
 ```{r}
-source_python('feature_creation.py')
-
 modeling_data <- df_features %>%
-  select(-SEVEN_LETTERS, -CENTER_LETTER) %>%
-  mutate(NUM_SOLUTIONS_LOG = log(NUM_SOLUTIONS, 10))
+  select(-SEVEN_LETTERS, -CENTER_LETTER) %>% #Drop non-numerical variables
+  mutate(NUM_SOLUTIONS_LOG = log(NUM_SOLUTIONS, 10)) #Log transform target variable
 
 ```
 
 Distribution of Data
 ```{r}
+#Histogram of Number of Solutions (Raw)
 solutions_hist <- ggplot(
   data = modeling_data, aes(x = NUM_SOLUTIONS)) +
-  geom_histogram(binwidth = 1)
+  geom_histogram(binwidth = 1) +
+  labs(title = "Number of Solutions (Raw)")
 
+#Histogram of Number of Solutions (Log Transformation)
 solutions_hist_log <- ggplot(
   data = modeling_data, aes(x = NUM_SOLUTIONS_LOG)) +
-  geom_histogram(binwidth = 0.02)
+  geom_histogram(binwidth = 0.005) +
+  labs(title = "Number of Solutions (Log)")
 
+#Combine histograms into figure
 figure_dist <- ggarrange(solutions_hist, solutions_hist_log,
                     ncol = 2, nrow = 1) %>%
-  annotate_figure(top = "Solutions Histogram")
+  annotate_figure(top = "Solutions Distribution")
 
 figure_dist
-
-#solutions_hist_log
 ```
 
 Calculate Pearson Correlations
 ```{r}
+#Correlation Matrix
 cor_matrix <- cor(modeling_data, method = "pearson")
 
+#Keep Correlations for number of solutions only
 cor_summary <- cor_matrix %>%
   as.data.frame() %>%
   select(NUM_SOLUTIONS, NUM_SOLUTIONS_LOG) %>%
