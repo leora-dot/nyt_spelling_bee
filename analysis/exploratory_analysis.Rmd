@@ -22,8 +22,8 @@ Import Data
 source_python('feature_creation.py')
 
 modeling_data <- df_features %>%
-  select(-SEVEN_LETTERS, -CENTER_LETTER)
-  
+  select(-SEVEN_LETTERS, -CENTER_LETTER) %>%
+  mutate(NUM_SOLUTIONS_LOG = log(NUM_SOLUTIONS, 10))
 
 ```
 
@@ -34,9 +34,13 @@ solutions_hist <- ggplot(
   geom_histogram(binwidth = 1)
 
 solutions_hist
+
+solutions_hist_log <- ggplot(
+  data = modeling_data, aes(x = NUM_SOLUTIONS_LOG)) +
+  geom_histogram(binwidth = 0.02)
+
+solutions_hist_log
 ```
-
-
 
 Calculate Pearson Correlations
 ```{r}
@@ -44,9 +48,13 @@ cor_matrix <- cor(modeling_data, method = "pearson")
 
 cor_summary <- cor_matrix %>%
   as.data.frame() %>%
-  select(NUM_SOLUTIONS) %>%
-  rename(correlation = NUM_SOLUTIONS) %>%
-  mutate(correlation_mag = abs(correlation))
+  select(NUM_SOLUTIONS, NUM_SOLUTIONS_LOG) %>%
+  rename(
+    correlation_raw = NUM_SOLUTIONS,
+    correlation_log = NUM_SOLUTIONS_LOG) %>%
+  mutate(
+    correlation_raw_mag = abs(correlation_raw),
+    correlation_log_mag = abs(correlation_log))
 ```
 
 Impact of Number of Vowels
