@@ -20,35 +20,31 @@ use_python(python_path, required = TRUE)
 source_python('feature_creation.py')
 ```
 
-Data Cleaning
+Data Cleaning & Transformation
 ```{r}
 modeling_data <- df_features %>%
   select(-SEVEN_LETTERS, -CENTER_LETTER) %>% #Drop non-numerical variables
   mutate(NUM_SOLUTIONS_LOG = log(NUM_SOLUTIONS, 10)) #Log transform target variable
-
 ```
 
 Distribution of Data
 ```{r}
-#Histogram of Number of Solutions (Raw)
-solutions_hist <- ggplot(
-  data = modeling_data, aes(x = NUM_SOLUTIONS)) +
-  geom_histogram(binwidth = 1) +
-  labs(title = "Number of Solutions (Raw)")
+#KDE of Number of Solutions (Raw)
+density_raw <- ggdensity(modeling_data, x = "NUM_SOLUTIONS", fill = "lightgray", title = "Number of Solutions (Raw)") +
+  stat_overlay_normal_density(color = "red", linetype = "dashed")
 
-#Histogram of Number of Solutions (Log Transformation)
-solutions_hist_log <- ggplot(
-  data = modeling_data, aes(x = NUM_SOLUTIONS_LOG)) +
-  geom_histogram(binwidth = 0.005) +
-  labs(title = "Number of Solutions (Log)")
+#KDE of Number of Solutions (Log Transformation)
+density_log <- ggdensity(modeling_data, x = "NUM_SOLUTIONS_LOG", fill = "lightgray", title = "Number of Solutions (Log Transformation)") +
+  stat_overlay_normal_density(color = "red", linetype = "dashed")
 
-#Combine histograms into figure
-figure_dist <- ggarrange(solutions_hist, solutions_hist_log,
+#Density Comparison
+figure_density <- ggarrange(density_raw, density_log,
                     ncol = 2, nrow = 1) %>%
-  annotate_figure(top = "Solutions Distribution")
+  annotate_figure(top = "Solutions KDE Before & After Transformation")
 
-figure_dist
+figure_density
 ```
+
 
 Calculate Pearson Correlations
 ```{r}
